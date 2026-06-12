@@ -78,7 +78,7 @@
   #hero {
     position: relative;
     min-height: 100vh;
-    min-height: 100dvh; /* dynamic viewport height — melhor em mobile */
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -277,7 +277,6 @@
 
   .carousel-slide {
     min-width: 100%;
-    /* aspect-ratio responsivo: 16/9 em telas grandes, 4/3 em menores */
     aspect-ratio: 4/3;
     overflow: hidden;
     position: relative;
@@ -297,12 +296,10 @@
     pointer-events: none;
   }
 
-  /* Zoom sutil no hover (apenas desktop) */
   @media (hover: hover) {
     .carousel-slide:hover img { transform: scale(1.04); }
   }
 
-  /* Ícone de zoom visível */
   .carousel-slide::after {
     content: '⤢';
     position: absolute;
@@ -327,7 +324,6 @@
   @media (hover: hover) {
     .carousel-slide:hover::after { opacity: 1; }
   }
-  /* Em touch sempre mostra levemente */
   @media (hover: none) {
     .carousel-slide::after { opacity: 0.7; }
   }
@@ -392,7 +388,7 @@
   .dot.active { background: var(--wine); transform: scale(1.35); }
 
   /* ============================================================
-     LIGHTBOX (visualização em tela cheia ao clicar)
+     LIGHTBOX
   ============================================================ */
   .lightbox-overlay {
     position: fixed;
@@ -442,7 +438,6 @@
     transform: scale(1);
   }
 
-  /* Caption do lightbox */
   .lightbox-caption {
     position: absolute;
     bottom: -2.4rem;
@@ -457,7 +452,6 @@
     text-overflow: ellipsis;
   }
 
-  /* Botão fechar */
   .lightbox-close {
     position: fixed;
     top: calc(1.2rem + var(--safe-top));
@@ -478,7 +472,6 @@
   .lightbox-close:hover,
   .lightbox-close:active { background: rgba(255,255,255,0.25); }
 
-  /* Navegar no lightbox */
   .lightbox-nav {
     position: fixed;
     top: 50%;
@@ -501,7 +494,6 @@
   .lightbox-nav.lb-prev { left: calc(0.8rem + var(--safe-left)); }
   .lightbox-nav.lb-next { right: calc(0.8rem + var(--safe-right)); }
 
-  /* Contador de fotos */
   .lightbox-counter {
     position: fixed;
     bottom: calc(1.2rem + var(--safe-bottom));
@@ -669,6 +661,63 @@
     font-size: clamp(0.82rem, 2vw, 0.9rem);
     color: var(--text-light);
     line-height: 1.6;
+  }
+
+  /* ============================================================
+     GERADOR DE MOTIVOS
+  ============================================================ */
+  #motivos { text-align: center; }
+
+  .motivos-container {
+    background: var(--white);
+    border: 1px solid var(--gold-light);
+    border-radius: 12px;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow: 0 12px 40px rgba(74, 16, 32, 0.06);
+    margin: 0 auto;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .motivo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-style: italic;
+    color: var(--wine-dark);
+    line-height: 1.6;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    transition: opacity 0.4s ease-in-out;
+    opacity: 1;
+  }
+
+  .motivo-btn {
+    background: var(--blush);
+    color: var(--wine);
+    border: 1px solid var(--rose);
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (hover: hover) {
+    .motivo-btn:hover {
+      background: var(--rose);
+      color: var(--wine-dark);
+      transform: translateY(-2px);
+    }
+  }
+  .motivo-btn:active {
+    transform: scale(0.96);
   }
 
   /* ============================================================
@@ -1091,6 +1140,17 @@
   </div>
 </section>
 
+<section id="motivos">
+  <span class="section-label reveal">Pote de amor</span>
+  <h2 class="section-title reveal reveal-delay-1">Por que eu<br>te amo?</h2>
+  <div class="divider reveal reveal-delay-2"></div>
+
+  <div class="motivos-container reveal reveal-delay-3">
+    <p class="motivo-text" id="motivoText">"Clique no botão abaixo para descobrir um pedacinho do que sinto por você..."</p>
+    <button class="motivo-btn" id="motivoBtn">Descobrir um motivo ♡</button>
+  </div>
+</section>
+
 <section id="surpresa">
   <span class="section-label reveal">uma surpresa especial</span>
   <h2 class="section-title reveal reveal-delay-1"><br>Nós</h2>
@@ -1201,7 +1261,6 @@
    3. CARROSSEL + LIGHTBOX
 ---------------------------------------------------------- */
 (function(){
-  /* ---- dados das fotos (coletados dos slides) ---- */
   const slides   = Array.from(document.querySelectorAll('.carousel-slide'));
   const track    = document.getElementById('carouselTrack');
   const dotsEl   = document.getElementById('carouselDots');
@@ -1216,7 +1275,6 @@
     caption: s.querySelector('.slide-caption').textContent.trim(),
   }));
 
-  /* ---- dots ---- */
   slides.forEach((_, i) => {
     const d = document.createElement('div');
     d.className = 'dot' + (i===0 ? ' active' : '');
@@ -1245,7 +1303,6 @@
   prevBtn.addEventListener('click', () => goTo(current-1, true));
   nextBtn.addEventListener('click', () => goTo(current+1, true));
 
-  /* swipe */
   let sx = null, sy = null;
   track.addEventListener('touchstart', e => {
     sx = e.touches[0].clientX;
@@ -1293,7 +1350,6 @@
 
   function lbGoTo(n){
     lbCurrent = (n + photos.length) % photos.length;
-    /* fade suave */
     lbImg.style.opacity = '0';
     setTimeout(() => {
       lbShow();
@@ -1302,21 +1358,15 @@
     }, 150);
   }
 
-  /* abrir ao clicar no slide */
   slides.forEach((slide, i) => {
-    slide.addEventListener('click', () => {
-      lbOpen(i);
-    });
+    slide.addEventListener('click', () => { lbOpen(i); });
   });
 
   lbClose.addEventListener('click', lbClose_fn);
   lbPrev.addEventListener('click',  () => lbGoTo(lbCurrent-1));
   lbNext.addEventListener('click',  () => lbGoTo(lbCurrent+1));
-
-  /* fechar clicando fora */
   lb.addEventListener('click', e => { if(e.target === lb) lbClose_fn(); });
 
-  /* teclado */
   document.addEventListener('keydown', e => {
     if(!lb.classList.contains('open')) return;
     if(e.key === 'ArrowLeft')  lbGoTo(lbCurrent-1);
@@ -1324,7 +1374,6 @@
     if(e.key === 'Escape')     lbClose_fn();
   });
 
-  /* swipe no lightbox */
   let lsx = null, lsy = null;
   lb.addEventListener('touchstart', e => {
     lsx = e.touches[0].clientX;
@@ -1384,8 +1433,50 @@
   }
 
   update();
-  // Atualiza a cada 1000 milissegundos (1 segundo) para mostrar o tempo real rodando
   setInterval(update, 1000);
+})();
+
+/* ----------------------------------------------------------
+   6. GERADOR DE MOTIVOS
+---------------------------------------------------------- */
+(function(){
+  /* ★ ADICIONE OU EDITE SUAS FRASES AQUI ★ */
+  const motivos = [
+    "Porque o seu sorriso ilumina até os meus dias mais difíceis.",
+    "Pelo jeito como você me entende mesmo quando não digo nada.",
+    "Porque com você, qualquer lugar se torna o melhor lugar do mundo.",
+    "Por causa da sua risada, que é a minha melodia favorita.",
+    "Pela forma como você me faz querer ser uma pessoa melhor todos os dias.",
+    "Porque o seu abraço é o meu porto seguro.",
+    "Pela sua bondade e pelo coração gigante que você tem.",
+    "Porque cada detalhe seu parece ter sido feito sob medida para mim.",
+    "Por me amar exatamente como eu sou, com todas as minhas imperfeições.",
+    "Porque eu simplesmente não consigo imaginar a minha vida sem você.",
+    "Pelo jeito adorável que você fica quando está concentrada.",
+    "Porque o nosso silêncio juntos é tão confortável quanto as nossas conversas.",
+    "Por ser a minha primeira e última lembrança todos os dias.",
+    "Porque você tem o dom de transformar coisas simples em momentos inesquecíveis.",
+    "Porque eu te escolhi ontem, te escolho hoje e vou te escolher amanhã."
+  ];
+
+  const btn = document.getElementById('motivoBtn');
+  const textEl = document.getElementById('motivoText');
+
+  if(btn && textEl) {
+    btn.addEventListener('click', () => {
+      // Faz o texto sumir suavemente
+      textEl.style.opacity = 0;
+      
+      setTimeout(() => {
+        // Sorteia uma frase aleatória
+        const randomIdx = Math.floor(Math.random() * motivos.length);
+        textEl.textContent = "“" + motivos[randomIdx] + "”";
+        
+        // Faz o novo texto aparecer suavemente
+        textEl.style.opacity = 1;
+      }, 400); // 400ms é o tempo exato do fade-out do CSS
+    });
+  }
 })();
 </script>
 </body>
