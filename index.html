@@ -99,7 +99,7 @@
 
   @keyframes pulse-heart {
     0%, 100% { transform: scale(1); }
-    50%       { transform: scale(1.15); }
+    50%        { transform: scale(1.15); }
   }
 
   .hero-subtitle {
@@ -156,7 +156,7 @@
 
   @keyframes bounce {
     0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%       { transform: translateX(-50%) translateY(8px); }
+    50%        { transform: translateX(-50%) translateY(8px); }
   }
 
   /* ============================================================
@@ -211,6 +211,49 @@
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.22s; }
   .reveal-delay-3 { transition-delay: 0.36s; }
+
+  /* ============================================================
+     CONTADOR DE TEMPO
+  ============================================================ */
+  #contador { text-align: center; }
+  
+  .counter-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: 1rem;
+  }
+
+  .counter-box {
+    background: var(--blush);
+    border: 1px solid var(--rose);
+    border-radius: 12px;
+    padding: clamp(1rem, 4vw, 1.8rem) clamp(1.5rem, 5vw, 2.5rem);
+    box-shadow: 0 8px 24px rgba(74, 16, 32, 0.08);
+    min-width: clamp(90px, 25vw, 130px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .counter-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 300;
+    color: var(--wine);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .counter-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+    letter-spacing: 0.2em;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
 
   /* ============================================================
      GALERIA / CARROSSEL
@@ -833,13 +876,10 @@
 
 <canvas id="particles-canvas"></canvas>
 
-<!-- ======================================================
-     HERO
-====================================================== -->
 <section id="hero">
   <div class="hero-ornament">♡</div>
   <span class="hero-subtitle">Eu e você · para sempre</span>
-  <h1 class="hero-title">Marcos <em>&amp;</em> Amanda</h1>
+  <h1 class="hero-title">Marcos <em>&</em> Amanda</h1>
   <p class="hero-tagline">
     "Há histórias que se escreve com o coração,<br>e a nossa é a minha favorita."
   </p>
@@ -851,11 +891,31 @@
   </div>
 </section>
 
-<!-- ======================================================
-     GALERIA / CARROSSEL
-     ★ Para adicionar mais fotos: duplique um bloco
-       <div class="carousel-slide"> e troque o src e a legenda.
-====================================================== -->
+<section id="contador">
+  <span class="section-label reveal">Nossa jornada</span>
+  <h2 class="section-title reveal reveal-delay-1">Cada instante importa</h2>
+  <div class="divider reveal reveal-delay-2"></div>
+
+  <div class="counter-container reveal reveal-delay-3">
+    <div class="counter-box">
+      <span class="counter-number" id="days">0</span>
+      <span class="counter-label">Dias</span>
+    </div>
+    <div class="counter-box">
+      <span class="counter-number" id="hours">0</span>
+      <span class="counter-label">Horas</span>
+    </div>
+    <div class="counter-box">
+      <span class="counter-number" id="minutes">0</span>
+      <span class="counter-label">Minutos</span>
+    </div>
+    <div class="counter-box">
+      <span class="counter-number" id="seconds">0</span>
+      <span class="counter-label">Segundos</span>
+    </div>
+  </div>
+</section>
+
 <section id="galeria">
   <span class="section-label reveal">Nossa história em fotos</span>
   <h2 class="section-title reveal reveal-delay-1">Momentos que<br>vivemos juntos</h2>
@@ -921,20 +981,17 @@
 
     </div>
 
-    <button class="carousel-btn prev" id="prevBtn" aria-label="Foto anterior">&#8592;</button>
-    <button class="carousel-btn next" id="nextBtn" aria-label="Próxima foto">&#8594;</button>
+    <button class="carousel-btn prev" id="prevBtn" aria-label="Foto anterior">←</button>
+    <button class="carousel-btn next" id="nextBtn" aria-label="Próxima foto">→</button>
   </div>
 
   <div class="carousel-dots" id="carouselDots"></div>
 </section>
 
-<!-- ======================================================
-     LIGHTBOX (tela cheia ao clicar na foto)
-====================================================== -->
 <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto em tela cheia">
   <button class="lightbox-close" id="lbClose" aria-label="Fechar">×</button>
-  <button class="lightbox-nav lb-prev" id="lbPrev" aria-label="Foto anterior">&#8592;</button>
-  <button class="lightbox-nav lb-next" id="lbNext" aria-label="Próxima foto">&#8594;</button>
+  <button class="lightbox-nav lb-prev" id="lbPrev" aria-label="Foto anterior">←</button>
+  <button class="lightbox-nav lb-next" id="lbNext" aria-label="Próxima foto">→</button>
   <div class="lightbox-img-wrap">
     <img class="lightbox-img" id="lbImg" src="" alt="">
     <p class="lightbox-caption" id="lbCaption"></p>
@@ -942,10 +999,6 @@
   <div class="lightbox-counter" id="lbCounter"></div>
 </div>
 
-<!-- ======================================================
-     CARTA DE AMOR
-     ★ Edite os parágrafos dentro de .letter-body
-====================================================== -->
 <section id="carta">
   <span class="section-label reveal">palavras do coração</span>
   <h2 class="section-title reveal reveal-delay-1">Uma carta<br>para você</h2>
@@ -978,10 +1031,6 @@
   </div>
 </section>
 
-<!-- ======================================================
-     LINHA DO TEMPO
-     ★ Edite datas, títulos e descrições abaixo
-====================================================== -->
 <section id="timeline">
   <span class="section-label reveal">nossa jornada</span>
   <h2 class="section-title reveal reveal-delay-1">Os capítulos<br>da nossa história</h2>
@@ -1042,28 +1091,20 @@
   </div>
 </section>
 
-<!-- ======================================================
-     BOTÃO SURPRESA
-====================================================== -->
 <section id="surpresa">
   <span class="section-label reveal">uma surpresa especial</span>
   <h2 class="section-title reveal reveal-delay-1"><br>Nós</h2>
   <div class="divider reveal reveal-delay-2"></div>
   <button class="surprise-btn reveal reveal-delay-3" id="surpriseBtn">
-    ♪ &nbsp;Nosso player de música
+    ♪  Nosso player de música
   </button>
 </section>
 
-<!-- ======================================================
-     MODAL DA SURPRESA
-     ★ Edite a foto (modal-photo src), título e mensagem
-====================================================== -->
 <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
   <div class="modal-box">
     <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
     <span class="modal-heart">♡</span>
 
-    <!-- ★ Troque o src pela foto que preferir -->
     <img class="modal-photo" src="https://i.ibb.co/b5JCPs2n/foto8.jpg" alt="Nossa foto especial">
 
     <h3 class="modal-title">Nossa música ♩</h3>
@@ -1074,7 +1115,6 @@
 
     <div class="player-wrapper">
       <span class="player-label">♪ nossa música</span>
-      <!-- Spotify embed — Raindance (feat. Tems) por Dave -->
       <div class="embed-wrapper">
         <iframe style="border-radius:12px"
           src="https://open.spotify.com/embed/track/3oTuTpF1F3A7rEC6RKsMRz?utm_source=generator"
@@ -1089,9 +1129,6 @@
 
 <footer>feito com ♡ · só para você</footer>
 
-<!-- ======================================================
-     JAVASCRIPT
-====================================================== -->
 <script>
 /* ----------------------------------------------------------
    1. PARTÍCULAS
@@ -1316,6 +1353,39 @@
   document.addEventListener('keydown', e => {
     if(e.key==='Escape' && overlay.classList.contains('open')){ overlay.classList.remove('open'); document.body.style.overflow=''; }
   });
+})();
+
+/* ----------------------------------------------------------
+   5. CONTADOR DE TEMPO JUNTOS
+---------------------------------------------------------- */
+(function(){
+  const startDate = new Date("2026-04-03T00:00:00");
+  const daysElement = document.getElementById("days");
+  const hoursElement = document.getElementById("hours");
+  const minutesElement = document.getElementById("minutes");
+  const secondsElement = document.getElementById("seconds");
+
+  function update(){
+    const now = new Date();
+    const diff = now - startDate;
+    
+    const totalMinutes = Math.floor(diff / 60000);
+    const days = Math.floor(totalMinutes / 1440);
+    const hours = Math.floor((totalMinutes % 1440) / 60);
+    const minutes = totalMinutes % 60;
+    const seconds = Math.floor((diff % 60000) / 1000);
+    
+    if (daysElement && hoursElement && minutesElement && secondsElement) {
+        daysElement.textContent = days;
+        hoursElement.textContent = hours;
+        minutesElement.textContent = minutes;
+        secondsElement.textContent = seconds;
+    }
+  }
+
+  update();
+  // Atualiza a cada 1000 milissegundos (1 segundo) para mostrar o tempo real rodando
+  setInterval(update, 1000);
 })();
 </script>
 </body>
