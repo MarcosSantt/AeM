@@ -12,7 +12,7 @@
 
 <style>
   /* ============================================================
-     VARIÁVEIS E RESET
+     VARIÁVEIS E RESET (TEMA CLARO - PADRÃO)
   ============================================================ */
   :root {
     --rose:       #e8c4c4;
@@ -25,6 +25,10 @@
     --text:       #3a1a22;
     --text-light: #7a5560;
     --white:      #ffffff;
+    
+    /* Variaveis para o degradê do contador */
+    --highlight-grad-1: #f7d0d0;
+    --highlight-grad-2: #f5e6e6;
 
     /* Safe area para notch (iOS) */
     --safe-top:    env(safe-area-inset-top, 0px);
@@ -33,12 +37,48 @@
     --safe-right:  env(safe-area-inset-right, 0px);
   }
 
+  /* ============================================================
+     TEMA ESCURO (NOITE)
+  ============================================================ */
+  [data-theme="night"] {
+    --cream:      #170a10;
+    --blush:      #2b141c;
+    --wine:       #e8a0a0; 
+    --wine-dark:  #fdf6f0; 
+    --gold:       #d8b87d;
+    --gold-light: #4e1020;
+    --text:       #fdf6f0;
+    --text-light: #c299a5;
+    --white:      #210e16;
+    --rose:       #7a1f2e;
+
+    --highlight-grad-1: #4a1c28;
+    --highlight-grad-2: #2b141c;
+  }
+
+  [data-theme="night"] #hero {
+    background: radial-gradient(ellipse at 50% 0%, #2b141c 0%, var(--cream) 70%);
+  }
+
+  [data-theme="night"] #particles-canvas {
+    opacity: 0.7; /* Partículas mais brilhantes à noite */
+  }
+
+  [data-theme="night"] .lightbox-overlay {
+    background: rgba(0, 0, 0, 0.98);
+  }
+
+  [data-theme="night"] img {
+    filter: brightness(0.9) contrast(1.1); /* Suaviza as fotos no escuro */
+  }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    transition: background-color 0.5s ease;
   }
 
   body {
@@ -50,6 +90,7 @@
     cursor: default;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 
   img {
@@ -58,6 +99,31 @@
     display: block;
     -webkit-user-drag: none;
     user-select: none;
+  }
+
+  /* ============================================================
+     BOTÃO DE TEMA (FLUTUANTE)
+  ============================================================ */
+  .theme-toggle {
+    position: fixed;
+    top: calc(1.2rem + var(--safe-top));
+    left: calc(1.2rem + var(--safe-left));
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--gold-light);
+    color: var(--wine-dark);
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s, background 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .theme-toggle:active { transform: scale(0.9); }
+  @media (hover: hover) {
+    .theme-toggle:hover { transform: scale(1.1); }
   }
 
   /* ============================================================
@@ -70,10 +136,11 @@
     pointer-events: none;
     z-index: 0;
     opacity: 0.45;
+    transition: opacity 0.5s ease;
   }
 
   /* ============================================================
-     HERO
+     HERO E SAUDAÇÃO
   ============================================================ */
   #hero {
     position: relative;
@@ -87,12 +154,13 @@
     padding: calc(2rem + var(--safe-top)) 2rem calc(2rem + var(--safe-bottom));
     z-index: 1;
     background: radial-gradient(ellipse at 50% 0%, #f7d9d9 0%, var(--cream) 70%);
+    transition: background 0.5s ease;
   }
 
   .hero-ornament {
     font-size: clamp(2.5rem, 8vw, 5rem);
     line-height: 1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     animation: pulse-heart 1.8s ease-in-out infinite;
     filter: drop-shadow(0 0 18px rgba(122, 31, 46, 0.35));
   }
@@ -100,6 +168,21 @@
   @keyframes pulse-heart {
     0%, 100% { transform: scale(1); }
     50%        { transform: scale(1.15); }
+  }
+
+  .hero-greeting {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    animation: fade-in 1s ease-in-out;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .hero-subtitle {
@@ -219,10 +302,18 @@
   
   .counter-container {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: clamp(1rem, 3vw, 2rem);
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 1.5rem);
     margin-top: 1rem;
+  }
+
+  .main-row {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(1rem, 3vw, 2rem);
+  }
+
+  .sub-row {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(1rem, 3vw, 2rem);
   }
 
   .counter-box {
@@ -236,6 +327,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: background 0.5s ease, border-color 0.5s ease;
+  }
+
+  .counter-box.highlight {
+    background: linear-gradient(135deg, var(--highlight-grad-1) 0%, var(--highlight-grad-2) 100%);
+    border-color: var(--wine);
+    box-shadow: 0 8px 28px rgba(122,31,46,0.14);
   }
 
   .counter-number {
@@ -267,6 +365,7 @@
     box-shadow: 0 20px 60px rgba(74, 16, 32, 0.15);
     background: var(--blush);
     touch-action: pan-y pinch-zoom;
+    transition: background 0.5s ease;
   }
 
   .carousel-track {
@@ -292,7 +391,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+    transition: transform 0.5s cubic-bezier(.22,1,.36,1), filter 0.5s ease;
     pointer-events: none;
   }
 
@@ -308,7 +407,7 @@
     width: 32px;
     height: 32px;
     background: rgba(255,255,255,0.82);
-    color: var(--wine);
+    color: #7a1f2e; /* Mantém escuro na bolinha branca */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -331,8 +430,8 @@
   .slide-caption {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(74,16,32,0.62));
-    color: var(--cream);
+    background: linear-gradient(transparent, rgba(20,5,10,0.7));
+    color: #fdf6f0;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: clamp(0.85rem, 2.5vw, 1.2rem);
@@ -352,7 +451,7 @@
     border-radius: 50%;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: var(--wine);
+    color: #7a1f2e;
     font-size: clamp(1rem, 2vw, 1.3rem);
     box-shadow: 0 4px 16px rgba(0,0,0,0.14);
     transition: background 0.2s, transform 0.2s;
@@ -361,9 +460,9 @@
   }
 
   @media (hover: hover) {
-    .carousel-btn:hover { background: var(--white); transform: translateY(-50%) scale(1.08); }
+    .carousel-btn:hover { background: #ffffff; transform: translateY(-50%) scale(1.08); }
   }
-  .carousel-btn:active { background: var(--white); transform: translateY(-50%) scale(0.95); }
+  .carousel-btn:active { background: #ffffff; transform: translateY(-50%) scale(0.95); }
   .carousel-btn.prev { left: 0.6rem; }
   .carousel-btn.next { right: 0.6rem; }
 
@@ -402,7 +501,7 @@
              calc(1rem + var(--safe-bottom)) calc(1rem + var(--safe-left));
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s;
+    transition: opacity 0.35s, background 0.5s ease;
     touch-action: pinch-zoom;
   }
 
@@ -460,7 +559,7 @@
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 50%;
-    color: var(--white);
+    color: #ffffff;
     font-size: 1.2rem;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
@@ -481,7 +580,7 @@
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 50%;
-    color: var(--white);
+    color: #ffffff;
     font-size: clamp(1rem,2vw,1.3rem);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
@@ -520,9 +619,10 @@
     position: relative;
     box-shadow:
       0 2px 4px rgba(201,169,110,0.1),
-      0 12px 40px rgba(74,16,32,0.08),
-      inset 0 0 60px rgba(248,236,220,0.5);
+      0 12px 40px rgba(0,0,0,0.08),
+      inset 0 0 60px rgba(248,236,220,0.05); /* Suavizado o inset shadow */
     text-align: left;
+    transition: background 0.5s ease, border-color 0.5s ease;
   }
 
   .letter-card::before,
@@ -532,6 +632,7 @@
     width: 24px; height: 24px;
     border-color: var(--gold-light);
     border-style: solid;
+    transition: border-color 0.5s ease;
   }
   .letter-card::before { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
   .letter-card::after  { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
@@ -623,6 +724,7 @@
     flex-shrink: 0;
     margin-top: 4px;
     z-index: 1;
+    transition: background 0.5s ease, border-color 0.5s ease;
   }
 
   @media (min-width: 600px) {
@@ -673,10 +775,11 @@
     border: 1px solid var(--gold-light);
     border-radius: 12px;
     padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem);
-    box-shadow: 0 12px 40px rgba(74, 16, 32, 0.06);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
     margin: 0 auto;
     max-width: 600px;
     position: relative;
+    transition: background 0.5s ease, border-color 0.5s ease;
   }
 
   .motivo-text {
@@ -712,7 +815,8 @@
   @media (hover: hover) {
     .motivo-btn:hover {
       background: var(--rose);
-      color: var(--wine-dark);
+      color: var(--white); /* Para garantir legibilidade em ambos os temas */
+      border-color: var(--wine);
       transform: translateY(-2px);
     }
   }
@@ -743,7 +847,7 @@
     cursor: pointer;
     letter-spacing: 0.04em;
     box-shadow:
-      0 8px 30px rgba(74,16,32,0.35),
+      0 8px 30px rgba(0,0,0,0.2),
       inset 0 1px 0 rgba(255,255,255,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
@@ -764,7 +868,7 @@
   @media (hover: hover) {
     .surprise-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(74,16,32,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
     }
     .surprise-btn:hover::after { transform: translateX(100%); }
   }
@@ -776,7 +880,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(30, 5, 12, 0.75);
+    background: rgba(10, 2, 5, 0.85);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     z-index: 1000;
@@ -806,7 +910,7 @@
     position: relative;
     transform: scale(0.88) translateY(20px);
     transition: transform 0.45s cubic-bezier(.22,1,.36,1);
-    box-shadow: 0 30px 80px rgba(30,5,12,0.4);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
     text-align: center;
     margin: auto;
   }
@@ -843,7 +947,7 @@
     border-radius: 10px;
     margin-bottom: 1.2rem;
     border: 2px solid var(--gold-light);
-    box-shadow: 0 8px 28px rgba(74,16,32,0.18);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
     display: block;
   }
 
@@ -870,6 +974,7 @@
     border-radius: 12px;
     padding: 1.2rem;
     margin-top: 0.8rem;
+    transition: background 0.5s ease;
   }
 
   .player-label {
@@ -880,13 +985,6 @@
     color: var(--gold);
     display: block;
     margin-bottom: 0.8rem;
-  }
-
-  audio {
-    width: 100%;
-    height: 40px;
-    filter: sepia(30%) hue-rotate(310deg);
-    outline: none;
   }
 
   .embed-wrapper iframe {
@@ -906,7 +1004,7 @@
     padding: 2rem 1rem calc(3rem + var(--safe-bottom));
     font-family: 'Cormorant Garamond', serif;
     font-size: 0.85rem;
-    color: var(--rose);
+    color: var(--text-light);
     letter-spacing: 0.15em;
   }
 
@@ -923,10 +1021,13 @@
 </head>
 <body>
 
+<button class="theme-toggle" id="theme-toggle" aria-label="Mudar Tema">🌙</button>
+
 <canvas id="particles-canvas"></canvas>
 
 <section id="hero">
   <div class="hero-ornament">♡</div>
+  <div id="dynamicGreeting" class="hero-greeting"></div>
   <span class="hero-subtitle">Eu e você · para sempre</span>
   <h1 class="hero-title">Marcos <em>&</em> Amanda</h1>
   <p class="hero-tagline">
@@ -946,21 +1047,29 @@
   <div class="divider reveal reveal-delay-2"></div>
 
   <div class="counter-container reveal reveal-delay-3">
-    <div class="counter-box">
-      <span class="counter-number" id="days">0</span>
-      <span class="counter-label">Dias</span>
+    <div class="main-row">
+      <div class="counter-box highlight">
+        <span class="counter-number" id="months">0</span>
+        <span class="counter-label">Meses</span>
+      </div>
+      <div class="counter-box highlight">
+        <span class="counter-number" id="rem-days">0</span>
+        <span class="counter-label">Dias</span>
+      </div>
     </div>
-    <div class="counter-box">
-      <span class="counter-number" id="hours">0</span>
-      <span class="counter-label">Horas</span>
-    </div>
-    <div class="counter-box">
-      <span class="counter-number" id="minutes">0</span>
-      <span class="counter-label">Minutos</span>
-    </div>
-    <div class="counter-box">
-      <span class="counter-number" id="seconds">0</span>
-      <span class="counter-label">Segundos</span>
+    <div class="sub-row">
+      <div class="counter-box">
+        <span class="counter-number" id="hours">0</span>
+        <span class="counter-label">Horas</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-number" id="minutes">0</span>
+        <span class="counter-label">Minutos</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-number" id="seconds">0</span>
+        <span class="counter-label">Segundos</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1191,6 +1300,57 @@
 
 <script>
 /* ----------------------------------------------------------
+   0. MODO NOTURNO E SAUDAÇÃO DINÂMICA
+---------------------------------------------------------- */
+(function(){
+  const toggleBtn = document.getElementById('theme-toggle');
+  const greetingEl = document.getElementById('dynamicGreeting');
+  
+  function updateGreetingAndTheme() {
+    const hour = new Date().getHours();
+    const isNight = hour >= 18 || hour < 6;
+    
+    // Atualiza a frase dependendo do horário
+    if (hour >= 6 && hour < 12) {
+      greetingEl.textContent = "Bom dia, meu amor! ☀️";
+    } else if (hour >= 12 && hour < 18) {
+      greetingEl.textContent = "Boa tarde, minha vida! 🌤️";
+    } else {
+      greetingEl.textContent = "Boa noite, meu anjo! 🌙";
+    }
+
+    // Se o usuário ainda não clicou no botão de tema, muda automaticamente pela hora
+    if (!document.body.hasAttribute('data-user-theme')) {
+      setTheme(isNight ? 'night' : 'day');
+    }
+  }
+
+  function setTheme(theme) {
+    if (theme === 'night') {
+      document.documentElement.setAttribute('data-theme', 'night');
+      toggleBtn.textContent = '☀️'; // Ícone para voltar pro claro
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      toggleBtn.textContent = '🌙'; // Ícone para ir pro escuro
+    }
+  }
+
+  // Ação manual de alternar tema
+  toggleBtn.addEventListener('click', () => {
+    document.body.setAttribute('data-user-theme', 'true'); // Grava que o user mudou manual
+    if (document.documentElement.getAttribute('data-theme') === 'night') {
+      setTheme('day');
+    } else {
+      setTheme('night');
+    }
+  });
+
+  // Roda assim que abre e checa a cada minuto
+  updateGreetingAndTheme();
+  setInterval(updateGreetingAndTheme, 60000);
+})();
+
+/* ----------------------------------------------------------
    1. PARTÍCULAS
 ---------------------------------------------------------- */
 (function(){
@@ -1409,26 +1569,39 @@
 ---------------------------------------------------------- */
 (function(){
   const startDate = new Date("2026-04-03T00:00:00");
-  const daysElement = document.getElementById("days");
-  const hoursElement = document.getElementById("hours");
-  const minutesElement = document.getElementById("minutes");
-  const secondsElement = document.getElementById("seconds");
-
+  
   function update(){
     const now = new Date();
     const diff = now - startDate;
-    
-    const totalMinutes = Math.floor(diff / 60000);
-    const days = Math.floor(totalMinutes / 1440);
-    const hours = Math.floor((totalMinutes % 1440) / 60);
-    const minutes = totalMinutes % 60;
-    const seconds = Math.floor((diff % 60000) / 1000);
-    
-    if (daysElement && hoursElement && minutesElement && secondsElement) {
-        daysElement.textContent = days;
-        hoursElement.textContent = hours;
-        minutesElement.textContent = minutes;
-        secondsElement.textContent = seconds;
+    if(diff < 0) return;
+
+    let months = 0;
+    let d = new Date(startDate);
+    while(true){
+      let next = new Date(d);
+      next.setMonth(next.getMonth() + 1);
+      if(next > now) break;
+      months++;
+      d = next;
+    }
+    const msAfterMonths = now - d;
+    const remDays    = Math.floor(msAfterMonths / 86400000);
+    const remHours   = Math.floor((msAfterMonths % 86400000) / 3600000);
+    const remMinutes = Math.floor((msAfterMonths % 3600000) / 60000);
+    const remSeconds = Math.floor((msAfterMonths % 60000) / 1000);
+
+    const monthsElement = document.getElementById("months");
+    const remDaysElement = document.getElementById("rem-days");
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+
+    if (monthsElement && remDaysElement && hoursElement && minutesElement && secondsElement) {
+        monthsElement.textContent = months;
+        remDaysElement.textContent = remDays;
+        hoursElement.textContent = remHours;
+        minutesElement.textContent = remMinutes;
+        secondsElement.textContent = remSeconds;
     }
   }
 
@@ -1464,17 +1637,13 @@
 
   if(btn && textEl) {
     btn.addEventListener('click', () => {
-      // Faz o texto sumir suavemente
       textEl.style.opacity = 0;
       
       setTimeout(() => {
-        // Sorteia uma frase aleatória
         const randomIdx = Math.floor(Math.random() * motivos.length);
         textEl.textContent = "“" + motivos[randomIdx] + "”";
-        
-        // Faz o novo texto aparecer suavemente
         textEl.style.opacity = 1;
-      }, 400); // 400ms é o tempo exato do fade-out do CSS
+      }, 400); 
     });
   }
 })();
