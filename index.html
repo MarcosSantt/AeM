@@ -223,6 +223,40 @@
   }
 
   /* ============================================================
+     ESTRELAS CADENTES INTENSIFICADAS (NOITE)
+  ============================================================ */
+  .shooting-star {
+    position: fixed;
+    width: clamp(150px, 25vw, 350px);
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,1) 100%);
+    border-radius: 999px;
+    z-index: 10; /* Agora elas passam por cima dos fundos e do texto */
+    pointer-events: none;
+    animation: shoot linear forwards;
+  }
+
+  .shooting-star::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.9), 
+                0 0 30px 12px rgba(232, 160, 160, 0.8);
+  }
+  
+  @keyframes shoot {
+    0% { opacity: 0; transform: translate(0, 0) rotate(-45deg) scale(0.3); }
+    10% { opacity: 1; transform: translate(-10vw, 10vh) rotate(-45deg) scale(1); }
+    100% { opacity: 0; transform: translate(-150vw, 150vh) rotate(-45deg) scale(0.5); }
+  }
+
+  /* ============================================================
      BOTÃO DE TEMA (FLUTUANTE)
   ============================================================ */
   .theme-toggle {
@@ -255,7 +289,7 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 0;
+    z-index: 2; /* Garante que as partículas fiquem por cima do fundo também */
     opacity: 0.45;
     transition: opacity 0.5s ease;
   }
@@ -486,7 +520,6 @@
 </head>
 <body>
 
-<!-- TELA DE BLOQUEIO / CADEADO -->
 <div id="lock-screen">
   <div class="lock-icon">🔒</div>
   <h2 class="lock-title">Acesso Restrito</h2>
@@ -643,6 +676,14 @@
     <div class="timeline-item reveal reveal-delay-3">
       <div class="timeline-dot"></div>
       <div class="timeline-content">
+        <span class="timeline-date">07/06/2026</span>
+        <strong class="timeline-event">Pedido de namoro oficial</strong>
+        <p class="timeline-desc">O momento em que dissemos 'sim' para o nosso futuro juntos. Um marco inesquecível na nossa jornada de amor.</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal reveal-delay-3">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
         <span class="timeline-date">Hoje</span>
         <strong class="timeline-event">E nossa história continua…</strong>
         <p class="timeline-desc">Cada dia ao seu lado é um capítulo novo que eu leio com curiosidade e escrevo com amor. Mal posso esperar pelos próximos.</p>
@@ -697,25 +738,19 @@
   const lockError = document.getElementById('lock-error');
   const correctPassword = "030426"; // Senha configurada
 
-  // Trava o scroll da página enquanto não digitar a senha
   document.body.style.overflow = 'hidden';
 
   lockInputs.forEach((input, index) => {
     input.addEventListener('input', (e) => {
-      // Limita a 1 caracter numérico
       let val = e.target.value.replace(/[^0-9]/g, '');
       if (val.length > 1) val = val.slice(0, 1);
       e.target.value = val;
-
-      // Foca no próximo input se houver texto
       if (val !== '' && index < lockInputs.length - 1) {
         lockInputs[index + 1].focus();
       }
       checkPassword();
     });
-
     input.addEventListener('keydown', (e) => {
-      // Retorna para o input anterior ao apagar
       if (e.key === 'Backspace' && input.value === '' && index > 0) {
         lockInputs[index - 1].focus();
       }
@@ -728,25 +763,15 @@
     
     if (typed.length === 6) {
       if (typed === correctPassword) {
-        // Senha Correta! Libera acesso.
         lockScreen.style.opacity = '0';
         lockScreen.classList.add('unlocked');
-        setTimeout(() => {
-          document.body.style.overflow = ''; // Restaura o scroll do site
-        }, 800);
+        setTimeout(() => { document.body.style.overflow = ''; }, 800);
       } else {
-        // Senha Incorreta
         lockError.classList.add('show');
-        lockInputs.forEach(inp => {
-           inp.classList.add('shake');
-        });
-        
+        lockInputs.forEach(inp => { inp.classList.add('shake'); });
         setTimeout(() => {
           lockError.classList.remove('show');
-          lockInputs.forEach(inp => {
-             inp.value = '';
-             inp.classList.remove('shake');
-          });
+          lockInputs.forEach(inp => { inp.value = ''; inp.classList.remove('shake'); });
           lockInputs[0].focus();
         }, 1200);
       }
@@ -763,27 +788,20 @@
 
   function spawnTrail(x, y) {
     const now = Date.now();
-    // Limita a criação de corações para não travar o dispositivo (1 a cada 50ms)
     if (now - lastTrail < 50) return; 
     lastTrail = now;
 
     const el = document.createElement('div');
     el.className = 'magic-trail';
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    
-    // Posição ajustada pelo cursor
     el.style.left = (x - 8) + 'px';
     el.style.top = (y - 8) + 'px';
     
     document.body.appendChild(el);
-    
-    // Remove o elemento após a animação (1.2s)
     setTimeout(() => el.remove(), 1200);
   }
 
-  // Mouse e Touch
   document.addEventListener('mousemove', (e) => {
-    // Só exibe a trilha se a tela de bloqueio já foi passada
     if(document.body.style.overflow !== 'hidden') spawnTrail(e.clientX, e.clientY);
   });
   
@@ -792,6 +810,53 @@
       spawnTrail(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, {passive: true});
+})();
+
+/* ----------------------------------------------------------
+   0.7. CHUVA DE METEOROS INTENSIFICADA (MODO NOTURNO)
+---------------------------------------------------------- */
+(function(){
+  function createShootingStar() {
+    if (document.documentElement.getAttribute('data-theme') !== 'night') return;
+
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+
+    // Começa sempre na metade superior da tela, estourando para a esquerda/baixo
+    const startX = Math.random() * window.innerWidth + 300; 
+    const startY = Math.random() * (window.innerHeight / 2) - 200; 
+    
+    // Variação mágica de tempo e tamanho
+    const duration = Math.random() * 0.6 + 0.8; // De 0.8s a 1.4s
+    const scale = Math.random() * 0.5 + 0.8; // De 0.8 a 1.3
+
+    star.style.left = startX + 'px';
+    star.style.top = startY + 'px';
+    star.style.animationDuration = duration + 's';
+    star.style.transform = `scale(${scale})`;
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+      star.remove();
+    }, duration * 1000);
+  }
+
+  function scheduleNextStars() {
+    // Agora o loop RODA SEMPRE, mas só adiciona estrelas se for modo noite.
+    if (document.documentElement.getAttribute('data-theme') === 'night') {
+      const numStars = Math.floor(Math.random() * 4) + 5; 
+      for (let i = 0; i < numStars; i++) {
+        setTimeout(createShootingStar, Math.random() * 300); 
+      }
+    }
+    
+    // Agenda a próxima "leva" independentemente (evita que a função morra se for dia)
+    const nextTime = Math.random() * 4000 + 2000; 
+    setTimeout(scheduleNextStars, nextTime);
+  }
+
+  scheduleNextStars();
 })();
 
 /* ----------------------------------------------------------
