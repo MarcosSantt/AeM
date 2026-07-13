@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Para Você ♡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
   /* ============================================================
@@ -26,11 +26,9 @@
     --text-light: #7a5560;
     --white:      #ffffff;
     
-    /* Variaveis para o degradê do contador */
     --highlight-grad-1: #f7d0d0;
     --highlight-grad-2: #f5e6e6;
 
-    /* Safe area para notch (iOS) */
     --safe-top:    env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --safe-left:   env(safe-area-inset-left, 0px);
@@ -60,26 +58,13 @@
     background: radial-gradient(ellipse at 50% 0%, #2b141c 0%, var(--cream) 70%);
   }
 
-  [data-theme="night"] #particles-canvas {
-    opacity: 0.7; 
-  }
-
-  [data-theme="night"] .lightbox-overlay {
-    background: rgba(0, 0, 0, 0.98);
-  }
-
-  [data-theme="night"] img {
-    filter: brightness(0.9) contrast(1.1);
-  }
+  [data-theme="night"] #particles-canvas { opacity: 0.7; }
+  [data-theme="night"] .lightbox-overlay { background: rgba(0, 0, 0, 0.98); }
+  [data-theme="night"] img { filter: brightness(0.9) contrast(1.1); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-    transition: background-color 0.5s ease;
-  }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; transition: background-color 0.5s ease; }
 
   body {
     background-color: var(--cream);
@@ -93,345 +78,76 @@
     transition: background-color 0.5s ease, color 0.5s ease;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    -webkit-user-drag: none;
-    user-select: none;
-  }
+  img { max-width: 100%; height: auto; display: block; -webkit-user-drag: none; user-select: none; }
 
   /* ============================================================
      TELA DE BLOQUEIO (CADEADO)
   =========================================================== */
   #lock-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(15, 5, 8, 0.98);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fdf6f0;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(15, 5, 8, 0.98); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fdf6f0; transition: opacity 0.8s ease, visibility 0.8s;
   }
-
-  #lock-screen.unlocked {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .lock-icon {
-    font-size: clamp(3rem, 10vw, 4rem);
-    margin-bottom: 1rem;
-    animation: pulse-heart 2s infinite;
-    color: #e8a0a0;
-    filter: drop-shadow(0 0 15px rgba(232, 160, 160, 0.4));
-  }
-
-  .lock-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-    margin-bottom: 0.5rem;
-    text-align: center;
-    color: #fdf6f0;
-  }
-
-  .lock-desc {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-    color: #c299a5;
-    margin-bottom: 2.5rem;
-    text-align: center;
-    max-width: 320px;
-    line-height: 1.5;
-    padding: 0 1rem;
-  }
-
-  .lock-input-group {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .lock-input {
-    width: clamp(40px, 10vw, 50px);
-    height: clamp(50px, 12vw, 60px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid #d8b87d;
-    border-radius: 8px;
-    color: #fdf6f0;
-    font-size: clamp(1.5rem, 5vw, 2rem);
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    -webkit-appearance: none;
-  }
-
-  .lock-input:focus {
-    border-color: #e8a0a0;
-    box-shadow: 0 0 15px rgba(232, 160, 160, 0.2);
-  }
-
-  @keyframes shake-lock {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  .lock-input.shake {
-    animation: shake-lock 0.3s ease-in-out;
-    border-color: #ff4b4b;
-    color: #ff4b4b;
-  }
-
-  .lock-error {
-    color: #ff4b4b;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .lock-error.show {
-    opacity: 1;
-  }
+  #lock-screen.unlocked { opacity: 0; visibility: hidden; pointer-events: none; }
+  .lock-icon { font-size: clamp(3rem, 10vw, 4rem); margin-bottom: 1rem; animation: pulse-heart 2s infinite; color: #e8a0a0; filter: drop-shadow(0 0 15px rgba(232, 160, 160, 0.4)); }
+  .lock-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 6vw, 2.5rem); margin-bottom: 0.5rem; text-align: center; color: #fdf6f0; }
+  .lock-desc { font-size: clamp(0.85rem, 3vw, 1rem); color: #c299a5; margin-bottom: 2.5rem; text-align: center; max-width: 320px; line-height: 1.5; padding: 0 1rem; }
+  .lock-input-group { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .lock-input { width: clamp(40px, 10vw, 50px); height: clamp(50px, 12vw, 60px); background: rgba(255, 255, 255, 0.05); border: 1px solid #d8b87d; border-radius: 8px; color: #fdf6f0; font-size: clamp(1.5rem, 5vw, 2rem); text-align: center; font-family: 'Lato', sans-serif; outline: none; transition: border-color 0.3s, box-shadow 0.3s; -webkit-appearance: none; }
+  .lock-input:focus { border-color: #e8a0a0; box-shadow: 0 0 15px rgba(232, 160, 160, 0.2); }
+  @keyframes shake-lock { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .lock-input.shake { animation: shake-lock 0.3s ease-in-out; border-color: #ff4b4b; color: #ff4b4b; }
+  .lock-error { color: #ff4b4b; font-size: 0.85rem; letter-spacing: 0.05em; opacity: 0; transition: opacity 0.3s; }
+  .lock-error.show { opacity: 1; }
 
   /* ============================================================
-     TRILHA MÁGICA (MAGIC TOUCH)
+     TRILHA MÁGICA, ESTRELAS E BOTÃO TEMA
   =========================================================== */
-  .magic-trail {
-    position: fixed;
-    pointer-events: none;
-    font-size: 16px;
-    z-index: 9998;
-    color: var(--wine);
-    animation: float-up-fade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  }
+  .magic-trail { position: fixed; pointer-events: none; font-size: 16px; z-index: 9998; color: var(--wine); animation: float-up-fade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+  [data-theme="night"] .magic-trail { color: #e8a0a0; }
+  @keyframes float-up-fade { 0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.8; } 100% { transform: translate(-50%, -100px) scale(0.4) rotate(45deg); opacity: 0; } }
 
-  [data-theme="night"] .magic-trail {
-    color: #e8a0a0;
-  }
+  .shooting-star { position: fixed; width: clamp(150px, 25vw, 350px); height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,1) 100%); border-radius: 999px; z-index: 10; pointer-events: none; animation: shoot linear forwards; }
+  .shooting-star::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.9), 0 0 30px 12px rgba(232, 160, 160, 0.8); }
+  @keyframes shoot { 0% { opacity: 0; transform: translate(0, 0) rotate(-45deg) scale(0.3); } 10% { opacity: 1; transform: translate(-10vw, 10vh) rotate(-45deg) scale(1); } 100% { opacity: 0; transform: translate(-150vw, 150vh) rotate(-45deg) scale(0.5); } }
 
-  @keyframes float-up-fade {
-    0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.8; }
-    100% { transform: translate(-50%, -100px) scale(0.4) rotate(45deg); opacity: 0; }
-  }
-
-  /* ============================================================
-     ESTRELAS CADENTES INTENSIFICADAS (NOITE)
-  =========================================================== */
-  .shooting-star {
-    position: fixed;
-    width: clamp(150px, 25vw, 350px);
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,1) 100%);
-    border-radius: 999px;
-    z-index: 10;
-    pointer-events: none;
-    animation: shoot linear forwards;
-  }
-
-  .shooting-star::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.9), 
-                0 0 30px 12px rgba(232, 160, 160, 0.8);
-  }
-  
-  @keyframes shoot {
-    0% { opacity: 0; transform: translate(0, 0) rotate(-45deg) scale(0.3); }
-    10% { opacity: 1; transform: translate(-10vw, 10vh) rotate(-45deg) scale(1); }
-    100% { opacity: 0; transform: translate(-150vw, 150vh) rotate(-45deg) scale(0.5); }
-  }
-
-  /* ============================================================
-     BOTÃO DE TEMA (FLUTUANTE)
-  =========================================================== */
-  .theme-toggle {
-    position: fixed;
-    top: calc(1.2rem + var(--safe-top));
-    left: calc(1.2rem + var(--safe-left));
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--white);
-    border: 1px solid var(--gold-light);
-    color: var(--wine-dark);
-    font-size: 1.2rem;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    z-index: 999;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    transition: transform 0.3s, background 0.3s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .theme-toggle { position: fixed; top: calc(1.2rem + var(--safe-top)); left: calc(1.2rem + var(--safe-left)); width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 1px solid var(--gold-light); color: var(--wine-dark); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 999; box-shadow: 0 4px 16px rgba(0,0,0,0.15); transition: transform 0.3s, background 0.3s; -webkit-tap-highlight-color: transparent; }
   .theme-toggle:active { transform: scale(0.9); }
-  @media (hover: hover) {
-    .theme-toggle:hover { transform: scale(1.1); }
-  }
+  @media (hover: hover) { .theme-toggle:hover { transform: scale(1.1); } }
 
   /* ============================================================
-     PARTÍCULAS E GERAIS
+     PARTÍCULAS E HERO
   =========================================================== */
-  #particles-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0.45;
-    transition: opacity 0.5s ease;
-  }
-
-  #hero {
-    position: relative;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: calc(2rem + var(--safe-top)) 2rem calc(2rem + var(--safe-bottom));
-    z-index: 1;
-    background: radial-gradient(ellipse at 50% 0%, #f7d9d9 0%, var(--cream) 70%);
-    transition: background 0.5s ease;
-  }
-
-  .hero-ornament {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    line-height: 1;
-    margin-bottom: 0.8rem;
-    animation: pulse-heart 1.8s ease-in-out infinite;
-    filter: drop-shadow(0 0 18px rgba(122, 31, 46, 0.35));
-  }
-
-  .hero-greeting {
-    font-family: 'Lato', sans-serif;
-    font-size: clamp(0.85rem, 3vw, 1.1rem);
-    color: var(--text-light);
-    margin-bottom: 0.5rem;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    animation: fade-in 1s ease-in-out;
-  }
-
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-subtitle {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(0.55rem, 2.2vw, 0.95rem);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 9vw, 6.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    color: var(--wine-dark);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.6rem;
-  }
-
-  .hero-title em {
-    font-style: italic;
-    color: var(--wine);
-  }
-
-  .hero-tagline {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.95rem, 3.5vw, 1.4rem);
-    font-style: italic;
-    color: var(--text-light);
-    max-width: 420px;
-    line-height: 1.7;
-    margin-top: 1rem;
-  }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: calc(2.5rem + var(--safe-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--gold);
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    animation: bounce 2s ease-in-out infinite;
-  }
-
+  #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; opacity: 0.45; transition: opacity 0.5s ease; }
+  
+  #hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(2rem + var(--safe-top)) 2rem calc(2rem + var(--safe-bottom)); z-index: 1; background: radial-gradient(ellipse at 50% 0%, #f7d9d9 0%, var(--cream) 70%); transition: background 0.5s ease; }
+  .hero-ornament { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; margin-bottom: 0.8rem; animation: pulse-heart 1.8s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(122, 31, 46, 0.35)); }
+  .hero-greeting { font-family: 'Lato', sans-serif; font-size: clamp(0.85rem, 3vw, 1.1rem); color: var(--text-light); margin-bottom: 0.5rem; font-weight: 400; letter-spacing: 0.05em; animation: fade-in 1s ease-in-out; }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-subtitle { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.55rem, 2.2vw, 0.95rem); letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 9vw, 6.5rem); font-weight: 300; line-height: 1.1; color: var(--wine-dark); letter-spacing: -0.01em; margin-bottom: 0.6rem; }
+  .hero-title em { font-style: italic; color: var(--wine); }
+  .hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.95rem, 3.5vw, 1.4rem); font-style: italic; color: var(--text-light); max-width: 420px; line-height: 1.7; margin-top: 1rem; }
+  .scroll-hint { position: absolute; bottom: calc(2.5rem + var(--safe-bottom)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--gold); font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; animation: bounce 2s ease-in-out infinite; }
   .scroll-hint svg { width: 20px; opacity: 0.7; }
 
   /* ============================================================
-     SEÇÕES GERAIS E DEMAIS ESTILOS MANTIDOS
+     SEÇÕES GERAIS E MENSAGEM DIÁRIA
   =========================================================== */
-  section {
-    position: relative;
-    z-index: 1;
-    padding: clamp(2.5rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem);
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .section-label {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(0.55rem, 1.8vw, 0.7rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 0.8rem;
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.6rem, 5vw, 3rem);
-    font-weight: 300;
-    color: var(--wine-dark);
-    margin-bottom: 2.5rem;
-    line-height: 1.2;
-  }
-
-  .divider {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 0 auto 2.5rem;
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(35px);
-    transition: opacity 0.85s cubic-bezier(.22,1,.36,1),
-                transform 0.85s cubic-bezier(.22,1,.36,1);
-  }
+  section { position: relative; z-index: 1; padding: clamp(2.5rem, 8vw, 6rem) clamp(1rem, 5vw, 2rem); max-width: 900px; margin: 0 auto; width: 100%; }
+  .section-label { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.55rem, 1.8vw, 0.7rem); letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.8rem; text-align: center; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 5vw, 3rem); font-weight: 300; color: var(--wine-dark); margin-bottom: 2.5rem; line-height: 1.2; text-align: center; }
+  .divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 2.5rem; }
+  .reveal { opacity: 0; transform: translateY(35px); transition: opacity 0.85s cubic-bezier(.22,1,.36,1), transform 0.85s cubic-bezier(.22,1,.36,1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.22s; }
-  .reveal-delay-3 { transition-delay: 0.36s; }
+  .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.22s; } .reveal-delay-3 { transition-delay: 0.36s; }
+
+  /* Mensagem Diária */
+  #mensagem-diaria { padding-top: 2rem; padding-bottom: 0; }
+  .daily-card { background: linear-gradient(135deg, var(--blush), var(--cream)); border: 1px dashed var(--gold); border-radius: 8px; padding: 1.5rem 2rem; text-align: center; margin: 0 auto; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: background 0.5s ease; }
+  .daily-label { font-family: 'Cinzel Decorative', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.8rem; display: block; }
+  .daily-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--wine-dark); font-style: italic; line-height: 1.5; }
 
   /* Contador */
   #contador { text-align: center; }
@@ -442,7 +158,7 @@
   .counter-number { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 300; color: var(--wine); line-height: 1; margin-bottom: 0.5rem; }
   .counter-label { font-family: 'Cinzel Decorative', serif; font-size: clamp(0.55rem, 1.8vw, 0.75rem); letter-spacing: 0.2em; color: var(--text-light); text-transform: uppercase; }
 
-  /* Galeria */
+  /* Galeria, Lightbox, Carta, Timeline (Mantidos) */
   #galeria { text-align: center; }
   .carousel-wrapper { position: relative; overflow: hidden; border-radius: 12px; box-shadow: 0 20px 60px rgba(74, 16, 32, 0.15); background: var(--blush); touch-action: pan-y pinch-zoom; transition: background 0.5s ease; }
   .carousel-track { display: flex; transition: transform 0.6s cubic-bezier(.77,0,.18,1); will-change: transform; }
@@ -456,7 +172,6 @@
   .dot { width: clamp(6px,2vw,8px); height: clamp(6px,2vw,8px); border-radius: 50%; background: var(--rose); cursor: pointer; transition: background 0.3s, transform 0.3s; -webkit-tap-highlight-color: transparent; }
   .dot.active { background: var(--wine); transform: scale(1.35); }
 
-  /* Lightbox */
   .lightbox-overlay { position: fixed; inset: 0; background: rgba(10, 2, 5, 0.96); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: calc(1rem + var(--safe-top)) 1rem calc(1rem + var(--safe-bottom)); opacity: 0; pointer-events: none; transition: opacity 0.35s, background 0.5s ease; touch-action: pinch-zoom; }
   .lightbox-overlay.open { opacity: 1; pointer-events: all; }
   .lightbox-img-wrap { position: relative; max-width: 100%; max-height: 100%; display: flex; align-items: center; justify-content: center; }
@@ -468,7 +183,6 @@
   .lightbox-nav.lb-prev { left: calc(0.8rem + var(--safe-left)); } .lightbox-nav.lb-next { right: calc(0.8rem + var(--safe-right)); }
   .lightbox-counter { position: fixed; bottom: calc(1.2rem + var(--safe-bottom)); left: 50%; transform: translateX(-50%); font-family: 'Cormorant Garamond', serif; color: rgba(255,255,255,0.5); font-size: 0.85rem; letter-spacing: 0.2em; z-index: 2001; }
 
-  /* Carta */
   #carta { text-align: center; }
   .letter-card { background: var(--white); border: 1px solid var(--gold-light); border-radius: 4px; padding: clamp(1.5rem, 6vw, 4rem); position: relative; box-shadow: 0 2px 4px rgba(201,169,110,0.1), 0 12px 40px rgba(0,0,0,0.08); text-align: left; transition: background 0.5s ease, border-color 0.5s ease; }
   .letter-card::before, .letter-card::after { content: ''; position: absolute; width: 24px; height: 24px; border-color: var(--gold-light); border-style: solid; transition: border-color 0.5s ease; }
@@ -478,7 +192,6 @@
   .letter-body p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2.8vw, 1.2rem); line-height: 1.9; color: var(--text); margin-bottom: 1.4rem; }
   .letter-signature { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.1rem, 3vw, 1.6rem); color: var(--wine-dark); text-align: right; margin-top: 2rem; }
 
-  /* Timeline */
   #timeline { text-align: center; }
   .timeline { position: relative; padding: 1rem 0; text-align: left; }
   .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--gold), var(--gold), transparent); }
@@ -493,13 +206,26 @@
   .timeline-event { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 600; color: var(--wine-dark); margin-bottom: 0.3rem; }
   .timeline-desc { font-size: clamp(0.82rem, 2vw, 0.9rem); color: var(--text-light); line-height: 1.6; }
 
-  /* Motivos */
+  /* ============================================================
+     CONTRATO DE NAMORO (NOVO)
+  =========================================================== */
+  #contrato { text-align: center; }
+  .contract-box { background: var(--white); border: 1px solid var(--gold-light); padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); position: relative; transition: background 0.5s ease; max-width: 700px; margin: 0 auto; }
+  .contract-intro { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 3vw, 1.3rem); color: var(--wine-dark); font-style: italic; margin-bottom: 2rem; line-height: 1.6; }
+  .contract-clauses { list-style: none; text-align: left; margin-bottom: 2.5rem; }
+  .contract-clauses li { font-family: 'Lato', sans-serif; font-size: clamp(0.9rem, 2.5vw, 1.05rem); color: var(--text); margin-bottom: 1.2rem; padding-left: 2rem; position: relative; line-height: 1.6; }
+  .contract-clauses li::before { content: '§'; position: absolute; left: 0; color: var(--gold); font-family: 'Cormorant Garamond', serif; font-weight: bold; font-size: 1.4rem; }
+  .contract-sign { display: flex; justify-content: center; }
+  .contract-btn { background: var(--wine); color: var(--white); border: 1px solid var(--wine-dark); padding: 1rem 2rem; border-radius: 50px; font-family: 'Lato', sans-serif; font-size: clamp(0.9rem, 2vw, 1rem); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px rgba(122,31,46,0.2); }
+  .contract-btn:hover { background: var(--wine-dark); transform: translateY(-2px); }
+  .contract-btn.signed { background: var(--gold); border-color: var(--gold); pointer-events: none; color: #fff; box-shadow: 0 0 20px rgba(201,169,110,0.4); }
+
+  /* Motivos, Surpresa, Modal (Mantidos) */
   #motivos { text-align: center; }
   .motivos-container { background: var(--white); border: 1px solid var(--gold-light); border-radius: 12px; padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08); margin: 0 auto; max-width: 600px; position: relative; transition: background 0.5s ease, border-color 0.5s ease; }
   .motivo-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-style: italic; color: var(--wine-dark); line-height: 1.6; min-height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; transition: opacity 0.4s ease-in-out; opacity: 1; }
   .motivo-btn { background: var(--blush); color: var(--wine); border: 1px solid var(--rose); font-family: 'Lato', sans-serif; font-size: clamp(0.85rem, 2vw, 0.95rem); text-transform: uppercase; letter-spacing: 0.1em; padding: 0.9rem 2rem; border-radius: 50px; cursor: pointer; transition: all 0.3s; }
 
-  /* Surpresa & Modal */
   #surpresa { text-align: center; padding-bottom: clamp(3rem, 8vw, 6rem); }
   .surprise-btn { display: inline-flex; align-items: center; gap: 0.8rem; background: linear-gradient(135deg, var(--wine) 0%, var(--wine-dark) 100%); color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 3vw, 1.3rem); font-style: italic; border: 1px solid rgba(201,169,110,0.4); border-radius: 100px; padding: clamp(0.8rem,2.5vw,1rem) clamp(1.5rem,4vw,2.4rem); cursor: pointer; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
   .modal-overlay { position: fixed; inset: 0; background: rgba(10, 2, 5, 0.85); backdrop-filter: blur(6px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s; overflow-y: auto; }
@@ -554,6 +280,14 @@
       <path d="M12 5v14M5 12l7 7 7-7"/>
     </svg>
     role
+  </div>
+</section>
+
+<!-- MENSAGEM DIÁRIA (NOVO) -->
+<section id="mensagem-diaria">
+  <div class="daily-card reveal">
+    <span class="daily-label">Mensagem do dia</span>
+    <p id="dailyText" class="daily-text"></p>
   </div>
 </section>
 
@@ -701,6 +435,26 @@
   </div>
 </section>
 
+<!-- CONTRATO DE NAMORO (NOVO) -->
+<section id="contrato">
+  <span class="section-label reveal">Termos & Condições</span>
+  <h2 class="section-title reveal reveal-delay-1">Contrato Oficial<br>de Namoro</h2>
+  <div class="divider reveal reveal-delay-2"></div>
+  
+  <div class="contract-box reveal reveal-delay-3">
+    <p class="contract-intro">Pelo presente instrumento, firmam-se os termos do nosso compromisso eterno, regido pelas seguintes cláusulas:</p>
+    <ul class="contract-clauses">
+      <li><strong>Cláusula 1ª:</strong> Fica estritamente proibido assistir ao próximo episódio da nossa série sem a presença do outro. Sob pena de ter que pagar o lanche.</li>
+      <li><strong>Cláusula 2ª:</strong> É obrigatório o fornecimento de cafunés, abraços apertados e beijos, com cota mínima diária (sujeita a acréscimos nos fins de semana).</li>
+      <li><strong>Cláusula 3ª:</strong> Prometo te amar nos dias bons, nos dias ruins e, principalmente, naqueles dias em que você estiver com fome.</li>
+      <li><strong>Cláusula 4ª:</strong> O colo do Marcos será de uso exclusivo da Amanda, vitaliciamente e sem direito a devoluções.</li>
+    </ul>
+    <div class="contract-sign">
+      <button id="btn-accept" class="contract-btn">Eu, Amanda, aceito os termos ♡</button>
+    </div>
+  </div>
+</section>
+
 <section id="motivos">
   <span class="section-label reveal">Pote de amor</span>
   <h2 class="section-title reveal reveal-delay-1">Por que eu<br>te amo?</h2>
@@ -831,13 +585,11 @@
     const star = document.createElement('div');
     star.className = 'shooting-star';
 
-    // Começa sempre na metade superior da tela, estourando para a esquerda/baixo
     const startX = Math.random() * window.innerWidth + 300; 
     const startY = Math.random() * (window.innerHeight / 2) - 200; 
     
-    // Variação mágica de tempo e tamanho
-    const duration = Math.random() * 0.6 + 0.8; // De 0.8s a 1.4s
-    const scale = Math.random() * 0.5 + 0.8; // De 0.8 a 1.3
+    const duration = Math.random() * 0.6 + 0.8;
+    const scale = Math.random() * 0.5 + 0.8; 
 
     star.style.left = startX + 'px';
     star.style.top = startY + 'px';
@@ -845,22 +597,16 @@
     star.style.transform = `scale(${scale})`;
 
     document.body.appendChild(star);
-
-    setTimeout(() => {
-      star.remove();
-    }, duration * 1000);
+    setTimeout(() => { star.remove(); }, duration * 1000);
   }
 
   function scheduleNextStars() {
-    // Agora o loop RODA SEMPRE, mas só adiciona estrelas se for modo noite.
     if (document.documentElement.getAttribute('data-theme') === 'night') {
       const numStars = Math.floor(Math.random() * 4) + 5; 
       for (let i = 0; i < numStars; i++) {
         setTimeout(createShootingStar, Math.random() * 300); 
       }
     }
-    
-    // Agenda a próxima "leva" independentemente (evita que a função morra se for dia)
     const nextTime = Math.random() * 4000 + 2000; 
     setTimeout(scheduleNextStars, nextTime);
   }
@@ -938,6 +684,27 @@
 (function(){
   const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+/* ----------------------------------------------------------
+   3.5. MENSAGEM DIÁRIA (NOVO)
+---------------------------------------------------------- */
+(function(){
+  const msgs = [
+    "Domingo é dia de preguiça, de preferência agarradinho com você. ♡", // 0 (Domingo)
+    "Que a sua segunda-feira seja tão linda e iluminada quanto o seu sorriso.", // 1
+    "Terça-feira passando para lembrar que você é o motivo dos meus melhores pensamentos.", // 2
+    "Quarta-feira! Metade da semana, e a saudade já está do tamanho do mundo.", // 3
+    "Quinta-feira com 'Q' de Que sorte a minha ter você na minha vida.", // 4
+    "Sextou, meu amor! Mal posso esperar para aproveitar o fim de semana com você.", // 5
+    "Sábado é o dia perfeito para criar novas memórias ao seu lado. Te amo!" // 6 (Sábado)
+  ];
+  
+  const today = new Date().getDay(); // 0 a 6
+  const textEl = document.getElementById('dailyText');
+  if(textEl) {
+    textEl.textContent = "“" + msgs[today] + "”";
+  }
 })();
 
 /* ----------------------------------------------------------
@@ -1022,6 +789,54 @@
   ];
   const btn = document.getElementById('motivoBtn'), textEl = document.getElementById('motivoText');
   if(btn && textEl) { btn.addEventListener('click', () => { textEl.style.opacity = 0; setTimeout(() => { textEl.textContent = "“" + motivos[Math.floor(Math.random() * motivos.length)] + "”"; textEl.style.opacity = 1; }, 400); }); }
+})();
+
+/* ----------------------------------------------------------
+   8. CONTRATO DE NAMORO (EFEITO CONFETE) - NOVO
+---------------------------------------------------------- */
+(function(){
+  const btn = document.getElementById('btn-accept');
+  if(!btn) return;
+
+  btn.addEventListener('click', function() {
+    // Muda o estado do botão
+    this.textContent = "Contrato Assinado! ♡";
+    this.classList.add('signed');
+    
+    // Função simples para gerar chuva de confetes
+    for(let i = 0; i < 70; i++) {
+      const conf = document.createElement('div');
+      conf.style.position = 'fixed';
+      conf.style.width = (Math.random() * 10 + 5) + 'px';
+      conf.style.height = (Math.random() * 5 + 5) + 'px';
+      conf.style.backgroundColor = ['#e8c4c4', '#c9a96e', '#7a1f2e', '#ffffff'][Math.floor(Math.random()*4)];
+      conf.style.left = (Math.random() * window.innerWidth) + 'px';
+      conf.style.top = '-10px';
+      conf.style.zIndex = '9999';
+      conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      conf.style.pointerEvents = 'none';
+      document.body.appendChild(conf);
+
+      const fallSpeed = Math.random() * 3 + 2;
+      const drift = Math.random() * 2 - 1;
+      let y = -10;
+      let x = parseFloat(conf.style.left);
+      
+      const anim = setInterval(() => {
+        y += fallSpeed;
+        x += drift;
+        conf.style.top = y + 'px';
+        conf.style.left = x + 'px';
+        conf.style.transform = `rotate(${y * 2}deg)`;
+        
+        // Remove quando sai da tela
+        if(y > window.innerHeight) {
+          clearInterval(anim);
+          conf.remove();
+        }
+      }, 20);
+    }
+  });
 })();
 </script>
 </body>
