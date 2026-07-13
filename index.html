@@ -13,7 +13,7 @@
 <style>
   /* ============================================================
      VARIÁVEIS E RESET (TEMA CLARO - PADRÃO)
-  ============================================================ */
+  =========================================================== */
   :root {
     --rose:       #e8c4c4;
     --blush:      #f5e6e6;
@@ -39,7 +39,7 @@
 
   /* ============================================================
      TEMA ESCURO (NOITE)
-  ============================================================ */
+  =========================================================== */
   [data-theme="night"] {
     --cream:      #170a10;
     --blush:      #2b141c;
@@ -103,7 +103,7 @@
 
   /* ============================================================
      TELA DE BLOQUEIO (CADEADO)
-  ============================================================ */
+  =========================================================== */
   #lock-screen {
     position: fixed;
     inset: 0;
@@ -203,7 +203,7 @@
 
   /* ============================================================
      TRILHA MÁGICA (MAGIC TOUCH)
-  ============================================================ */
+  =========================================================== */
   .magic-trail {
     position: fixed;
     pointer-events: none;
@@ -224,14 +224,14 @@
 
   /* ============================================================
      ESTRELAS CADENTES INTENSIFICADAS (NOITE)
-  ============================================================ */
+  =========================================================== */
   .shooting-star {
     position: fixed;
     width: clamp(150px, 25vw, 350px);
     height: 2px;
     background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,1) 100%);
     border-radius: 999px;
-    z-index: 10; /* Agora elas passam por cima dos fundos e do texto */
+    z-index: 10;
     pointer-events: none;
     animation: shoot linear forwards;
   }
@@ -258,7 +258,7 @@
 
   /* ============================================================
      BOTÃO DE TEMA (FLUTUANTE)
-  ============================================================ */
+  =========================================================== */
   .theme-toggle {
     position: fixed;
     top: calc(1.2rem + var(--safe-top));
@@ -283,13 +283,13 @@
 
   /* ============================================================
      PARTÍCULAS E GERAIS
-  ============================================================ */
+  =========================================================== */
   #particles-canvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 2; /* Garante que as partículas fiquem por cima do fundo também */
+    z-index: 2;
     opacity: 0.45;
     transition: opacity 0.5s ease;
   }
@@ -386,7 +386,7 @@
 
   /* ============================================================
      SEÇÕES GERAIS E DEMAIS ESTILOS MANTIDOS
-  ============================================================ */
+  =========================================================== */
   section {
     position: relative;
     z-index: 1;
@@ -638,6 +638,7 @@
       <p>Há palavras que nascem no silêncio de uma madrugada, quando o mundo dorme e eu fico acordado pensando em você — no jeito como você ri, como você me olha, como a sua presença transforma qualquer lugar comum num lugar que eu quero chamar de lar. É por isso que estou escrevendo esta carta: porque algumas coisas precisam ser ditas com cuidado, com calma, com carinho.</p>
       <p>Desde que você entrou na minha vida, aprendi que o amor não é aquilo que os filmes mostram: é mais bonito, mais honesto, mais "imperfeito" de uma forma perfeita. É você me fazendo rir quando eu menos espero. É a conversa que começa sobre qualquer coisa e termina tarde da noite, sem que a gente queira parar. É saber que, independente de tudo, você está aqui — e isso me basta.</p>
       <p>Que cada foto te lembre que cada momento vivido ao seu lado você é e sempre vai ser o melhor capítulo da minha história. Obrigado por existir, por me escolher, por ser exatamente quem você é. Eu te amo mais do que qualquer palavra conseguiria explicar — mas vou passar a vida inteira tentando demonstrar.</p>
+      <p><em>P.S. (Atualizado em Julho): Um mês oficial se passou e eu te amo ainda mais...</em></p>
     </div>
     <p class="letter-signature">Com todo o meu amor, Marcos ♡</p>
   </div>
@@ -679,6 +680,14 @@
         <span class="timeline-date">07/06/2026</span>
         <strong class="timeline-event">Pedido de namoro oficial</strong>
         <p class="timeline-desc">O momento em que dissemos 'sim' para o nosso futuro juntos. Um marco inesquecível na nossa jornada de amor.</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal reveal-delay-3">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <span class="timeline-date">07/07/2026</span>
+        <strong class="timeline-event">Nosso primeiro mês (Bodas de Beijinhos)</strong>
+        <p class="timeline-desc">Esses primeiros 30 dias de namoro oficial confirmaram o que meu coração já sabia: cada segundo ao seu lado é um presente. Que venham todos os meses de uma vida inteira.</p>
       </div>
     </div>
     <div class="timeline-item reveal reveal-delay-3">
